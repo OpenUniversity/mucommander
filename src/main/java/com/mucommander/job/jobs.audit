@@ -1,0 +1,8 @@
+logs for com.mucommander.job.impl.CopyJob:
+case pause log TWO
+;
+
+logs for com.mucommander.job.impl.MkdirJob:
+
+case finish log ONE
+;
