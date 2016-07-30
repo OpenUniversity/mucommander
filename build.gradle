@@ -6,7 +6,7 @@ buildscript {
     }
     dependencies {
         classpath files('libs/mucommander-gradle-macappbundle-2.1.6.jar', 'libs/proguard.jar')
-        classpath "nl.eveoh:gradle-aspectj:1.6"
+//        classpath "nl.eveoh:gradle-aspectj:1.6"
     }
 }
 
@@ -36,13 +36,17 @@ ext {
 
     // Get commit id of HEAD.
     revision = git.head().id
-    aspectjVersion = '1.8.9'
+//    aspectjVersion = '1.8.9'
 }
 
-apply plugin: 'aspectj'
+//apply plugin: 'aspectj'
 
 repositories.jcenter()
 repositories.mavenCentral()
+
+configurations {
+    ajc
+}
 
 dependencies {
     compile project('mucommander-commons-file')
@@ -58,6 +62,32 @@ dependencies {
 
     testCompile 'org.testng:testng:6.9.10'
     testCompile 'junit:junit:4.12'
+
+    ajc 'org.aspectj:aspectjtools:1.8.9'
+    ajc 'org.aspectj:aspectjrt:1.8.9'
+    compile 'org.aspectj:aspectjtools:1.8.9'
+    compile 'org.aspectj:aspectjrt:1.8.9'
+}
+
+compileJava.doLast {
+    ant.taskdef(resource:"org/aspectj/tools/ant/taskdefs/aspectjTaskdefs.properties",
+                classpath: project.configurations.ajc.asPath + ":" + sourceSets.main.output.classesDir.path)
+    ant.iajc(
+	source:sourceCompatibility,
+	target:targetCompatibility,
+        destDir:sourceSets.main.output.classesDir.absolutePath,
+//      maxmem:"512m",
+//      fork:"true",
+//	forkclasspath: sourceSets.main.compileClasspath.asPath + ':' + sourceSets.main.output.classesDir.path,
+	inpath: sourceSets.main.output.classesDir.absolutePath,
+	classpath: sourceSets.main.compileClasspath.asPath,
+	) {
+            sourceroots{
+	        sourceSets.main.java.srcDirs.each{
+                    pathelement(location:it.absolutePath)
+                }
+            }
+	}
 }
 
 jar {
