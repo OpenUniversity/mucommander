@@ -67,6 +67,7 @@ dependencies {
     ajc 'org.aspectj:aspectjrt:1.8.9'
     compile 'org.aspectj:aspectjtools:1.8.9'
     compile 'org.aspectj:aspectjrt:1.8.9'
+    ajc files('libs/com-mucommander-auditing.jar')
 }
 
 compileJava.doLast {
