@@ -1,8 +1,23 @@
+
 logs for com.mucommander.job.impl.CopyJob:
-case pause log TWO
+case start log COPY_STARTED with nbFiles baseSourceFolder baseDestFolder files,
+case finish log COPY_FINISHED with nbFiles baseSourceFolder baseDestFolder,
+case interrupt log COPY_INTERRUPTED with baseSourceFolder baseDestFolder,
+case pause log COPY_PAUSED with baseSourceFolder baseDestFolder i,
+case resume log COPY_RESUMED with baseSourceFolder baseDestFolder
 ;
 
 logs for com.mucommander.job.impl.MkdirJob:
+case start & mkfileMode log MKFile_STARTED with files,
+case finish & mkfileMode log MKFile_FINISHED with files,
+case interrupt & mkfileMode log MKFile_INTERRUPTED with files,
+case pause & mkfileMode log MKFile_PAUSED with files,
+case resume & mkfileMode log MKFile_RESUMED with files,
 
-case finish log ONE
+case start log MKDIR_STARTED with files,
+case finish log MKDIR_FINISHED with files,
+case interrupt log MKDIR_INTERRUPTED with files,
+case pause log MKDIR_PAUSED with files,
+case resume log MKDIR_RESUMED with files
 ;
+

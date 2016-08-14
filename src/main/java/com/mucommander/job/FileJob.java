@@ -731,6 +731,7 @@ public abstract class FileJob implements Runnable {
     // Runnable implementation //
     /////////////////////////////
 
+    int i;
     /**
      * This method is public as a side-effect of this class implementing <code>Runnable</code>.
      */
@@ -742,7 +743,7 @@ public abstract class FileJob implements Runnable {
         jobStarted();
 
         // Loop on all source files, checking that job has not been interrupted
-        for(int i=0; i<nbFiles; i++) {
+        for(i=0; i<nbFiles; i++) {
             currentFile = files.elementAt(i);
 
             // Change current file and advance file index
