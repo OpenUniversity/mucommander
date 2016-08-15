@@ -72,7 +72,7 @@ dependencies {
 
 compileJava.doLast {
     ant.taskdef(resource:"org/aspectj/tools/ant/taskdefs/aspectjTaskdefs.properties",
-                classpath: project.configurations.ajc.asPath + ":" + sourceSets.main.output.classesDir.path)
+                classpath: project.configurations.ajc.asPath + ":" + sourceSets.main.output.classesDir.path + ":" + sourceSets.main.compileClasspath.asPath)
     ant.iajc(
 	source:sourceCompatibility,
 	target:targetCompatibility,
