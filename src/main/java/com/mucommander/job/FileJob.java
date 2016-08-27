@@ -99,6 +99,9 @@ public abstract class FileJob implements Runnable {
     /** Number of files that this job contains */
     private int nbFiles;
 
+    /** Number of files that this job already processed */
+    private int nbProcessedFiles;
+
     /** Index of file currently being processed, see {@link #getCurrentFileIndex()} */
     private int currentFileIndex = -1;
 
@@ -731,7 +734,6 @@ public abstract class FileJob implements Runnable {
     // Runnable implementation //
     /////////////////////////////
 
-    int i;
     /**
      * This method is public as a side-effect of this class implementing <code>Runnable</code>.
      */
@@ -743,11 +745,11 @@ public abstract class FileJob implements Runnable {
         jobStarted();
 
         // Loop on all source files, checking that job has not been interrupted
-        for(i=0; i<nbFiles; i++) {
-            currentFile = files.elementAt(i);
+        for(nbProcessedFiles=0; nbProcessedFiles<nbFiles; nbProcessedFiles++) {
+            currentFile = files.elementAt(nbProcessedFiles);
 
             // Change current file and advance file index
-            currentFileIndex = i;
+            currentFileIndex = nbProcessedFiles;
             nextFile(currentFile);
 
             // Process current file
@@ -766,7 +768,7 @@ public abstract class FileJob implements Runnable {
 
             // If last file was reached without any user interruption, all files have been processed with or
             // without errors, switch to FINISHED state and notify listeners
-            if(i==nbFiles-1) {
+            if(nbProcessedFiles==nbFiles-1) {
                 currentFileIndex++;
                 stop();
                 jobCompleted();
